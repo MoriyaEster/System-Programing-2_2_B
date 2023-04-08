@@ -13,6 +13,20 @@ Game::Game(Player &player1, Player &player2)
     this->player1 = player1;
     this->player2 = player2;
 
+    if (player1.isPlaying == true)
+    {
+
+        throw invalid_argument(player1.name + "is in another game");
+    }
+    if (player2.isPlaying == true)
+    {
+
+        throw invalid_argument(player2.name + "is in another game");
+    }
+    // if (&player1 == &player2){
+    //     throw invalid_argument("You have to choose two diffrent players");
+    // }
+
     // create a packet of 52 cards in their order and push it into the vector
     Card card;
     vector<Card> deck;
@@ -66,12 +80,16 @@ void ariel::Game::playTurn()
 
     if (player1.packetOfCards.size())
     {
-        numOfTurns++;
+        if (!isDraw)
+            numOfTurns++;
 
         lastCardOfPlayer1 = player1.packetOfCards[0];
         player1.packetOfCards.erase(player1.packetOfCards.begin());
         lastCardOfPlayer2 = player2.packetOfCards[0];
         player2.packetOfCards.erase(player2.packetOfCards.begin());
+
+        packetOfLog.push_back(lastCardOfPlayer1);
+        packetOfLog.push_back(lastCardOfPlayer2);
 
         std::cout << "lastCardOfPlayer1: " << lastCardOfPlayer1.num << ", " << lastCardOfPlayer1.shape << endl;
         std::cout << "lastCardOfPlayer2: " << lastCardOfPlayer2.num << ", " << lastCardOfPlayer2.shape << endl;
@@ -203,7 +221,7 @@ void ariel::Game::playTurn()
     }
 }
 
-void ariel::Game::emptyPacketOfDraw(vector<Card>& deck)
+void ariel::Game::emptyPacketOfDraw(vector<Card> &deck)
 {
     for (Card c : packetOfDraw)
     {
@@ -258,7 +276,44 @@ void ariel::Game::printWiner()
         std::cout << "Draw." << endl;
     }
 }
-void ariel::Game::printLog() {}
+void ariel::Game::printLog()
+{
+    bool draw = false;
+    std::cout << "numOfTurns: " << numOfTurns << endl;
+    for (int i = 1; i <= numOfTurns; i++)
+    {
+        std::cout << "Turn " << i << ": " << endl;
+
+        std::cout << player1.name << " played with " << packetOfLog[0].num << ", " << packetOfLog[0].shape << endl;
+        std::cout << player2.name << " played with " << packetOfLog[1].num << ", " << packetOfLog[1].shape << endl;
+        if (packetOfLog[0].num > packetOfLog[1].num || (packetOfLog[0].num == 0 && packetOfLog[1].num == 13))
+        {
+            draw = false;
+            std::cout << player1.name << " is winning." << endl;
+            packetOfLog.erase(packetOfLog.begin());
+            packetOfLog.erase(packetOfLog.begin());
+        }
+        if (packetOfLog[0].num < packetOfLog[1].num || (packetOfLog[0].num == 13 && packetOfLog[1].num == 0))
+        {
+            draw = false;
+            std::cout << player2.name << " is winning." << endl;
+            packetOfLog.erase(packetOfLog.begin());
+            packetOfLog.erase(packetOfLog.begin());
+        }
+        while (packetOfLog[0].num == packetOfLog[1].num)
+        {
+            std::cout << "Draw." << endl;
+            packetOfLog.erase(packetOfLog.begin());
+            packetOfLog.erase(packetOfLog.begin());
+            if (draw)
+            {
+                std::cout << player1.name << " played with " << packetOfLog[0].num << ", " << packetOfLog[0].shape << endl;
+                std::cout << player2.name << " played with " << packetOfLog[1].num << ", " << packetOfLog[1].shape << endl;
+            }
+            draw = true;
+        }
+    }
+}
 void ariel::Game::printStats()
 {
 
@@ -268,13 +323,13 @@ void ariel::Game::printStats()
 
     std::cout << player1.name << " Won " << (double)player1.numOfWinning / (double)numOfTurns << endl;
     std::cout << player2.name << " Won " << (double)player2.numOfWinning / (double)numOfTurns << endl;
-    std::cout << "The cards which " << player1.name << " won: (size of packetOfWonsCards: " << player1.packetOfWonsCards.size() << endl;
+    std::cout << "The cards which " << player1.name << " won: " << endl;
     for (Card c : player1.packetOfWonsCards)
     {
         std::cout << "Num: " << c.num << " "
                   << "Shape: " << c.shape << endl;
     }
-    std::cout << "The cards which " << player2.name << " won: (size of packetOfWonsCards: " << player2.packetOfWonsCards.size() << endl;
+    std::cout << "The cards which " << player2.name << " won: " << endl;
     for (Card c : player2.packetOfWonsCards)
     {
         std::cout << "Num: " << c.num << " "

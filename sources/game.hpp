@@ -21,6 +21,7 @@ namespace ariel
         Card unknownOfDraw1;
         Card unknownOfDraw2;
         vector<Card> packetOfDraw;
+        vector<Card> packetOfLog;
         bool isDraw = false;
         bool player1Won = false;
         bool player2Won = false;
