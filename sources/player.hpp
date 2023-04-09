@@ -9,7 +9,7 @@ class Player{
 
 public:
     std::string name;
-    bool isPlaying;
+    bool isPlaying = false;
     Card cardOfLastTurn;
     vector<Card> packetOfCards;
     vector<Card> packetOfWonsCards;
