@@ -187,6 +187,7 @@ void ariel::Game::playTurn()
             packetOfDraw.erase(packetOfDraw.begin());
         }
     }
+
     else
     {
         throw invalid_argument("There is no more cards");
@@ -260,7 +261,11 @@ void ariel::Game::printLog()
 
     for (int i = 1; i <= numOfTurns; i++)
     {
-        std::cout << "Turn " << i << ": " << endl;
+        if (!draw)
+        {
+            // i--;
+            std::cout << "Turn " << i << ": " << endl;
+        }
 
         Card cardOfPlayer1 = packetOfLog[0];
         Card cardOfPlayer2 = packetOfLog[1];
@@ -299,6 +304,7 @@ void ariel::Game::printLog()
                 std::cout << player2.name << " played with " << packetOfLog[1].num << ", " << packetOfLog[1].shape << endl;
             }
             draw = true;
+            i--;
         }
     }
 }
