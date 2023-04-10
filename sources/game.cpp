@@ -36,6 +36,7 @@ Game::Game(Player &player1, Player &player2)
         }
     }
 
+    srand(time(NULL));
     // shuffle the deck
     while (!deck.empty())
     {
@@ -56,6 +57,7 @@ Game::Game(Player &player1, Player &player2)
 
 void ariel::Game::printPacketOfCards()
 {
+    std::cout << "--------------------------------------------------" << endl;
     std::cout << "player1: " << player1.packetOfCards.size() << endl;
     for (Card c : player1.packetOfCards)
     {
@@ -202,7 +204,7 @@ void ariel::Game::emptyPacketOfDraw(vector<Card> &deck)
 
 void ariel::Game::printLastTurn()
 {
-
+    std::cout << "--------------------------------------------------" << endl;
     while (thisTurnPlayer2.size())
     {
         std::cout << player1.name << " played " << thisTurnPlayer1[0].num << " of " << thisTurnPlayer1[0].shape << endl;
@@ -233,6 +235,7 @@ void ariel::Game::playAll()
 }
 void ariel::Game::printWiner()
 {
+    std::cout << "--------------------------------------------------" << endl;
     if (player1.packetOfWonsCards.size() > player2.packetOfWonsCards.size())
     {
         std::cout << player1.name << " Won." << endl;
@@ -248,6 +251,7 @@ void ariel::Game::printWiner()
 }
 void ariel::Game::printLog()
 {
+    std::cout << "--------------------------------------------------" << endl;
     bool draw = false;
     std::cout << "numOfTurns: " << numOfTurns << endl;
 
@@ -279,6 +283,13 @@ void ariel::Game::printLog()
         }
         while (packetOfLog.size() && (packetOfLog[0].num == packetOfLog[1].num))
         {
+            if (!draw)
+            {
+                i++;
+                std::cout << "Turn " << i << ": " << endl;
+                std::cout << player1.name << " played with " << packetOfLog[0].num << ", " << packetOfLog[0].shape << endl;
+                std::cout << player2.name << " played with " << packetOfLog[1].num << ", " << packetOfLog[1].shape << endl;
+            }
             std::cout << "Draw." << endl;
             packetOfLog.erase(packetOfLog.begin());
             packetOfLog.erase(packetOfLog.begin());
@@ -293,11 +304,7 @@ void ariel::Game::printLog()
 }
 void ariel::Game::printStats()
 {
-
-    std::cout << player1.name << " player1.numOfWinning " << player1.numOfWinning << endl;
-    std::cout << player2.name << " player2.numOfWinning " << player2.numOfWinning << endl;
-    std::cout << "num of turns: " << numOfTurns << endl;
-
+    std::cout << "--------------------------------------------------" << endl;
     std::cout << player1.name << " Won " << (double)player1.numOfWinning / (double)numOfTurns << endl;
     std::cout << player2.name << " Won " << (double)player2.numOfWinning / (double)numOfTurns << endl;
     std::cout << "The cards which " << player1.name << " won: " << endl;
