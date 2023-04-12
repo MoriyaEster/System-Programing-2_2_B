@@ -45,7 +45,7 @@ Game::Game(Player &player1, Player &player2)
         deck.erase(deck.begin() + (int)rand_index);
     }
 
-    // divide the packet of cards to yhe players, 26 cards each one.
+    // divide the packet of cards to the players, 26 cards each one.
     for (int index = 0; index < 26; index++)
     {
         player1.packetOfCards.push_back(packetOfCard[0]);
@@ -179,6 +179,7 @@ void ariel::Game::playTurn()
 
     else if (isDraw)
     {
+        std::cout << "*** TEST is draw ***" << endl;
         while (packetOfDraw.size())
         {
             player1.packetOfWonsCards.push_back(packetOfDraw[0]);
@@ -186,6 +187,7 @@ void ariel::Game::playTurn()
             player2.packetOfWonsCards.push_back(packetOfDraw[0]);
             packetOfDraw.erase(packetOfDraw.begin());
         }
+        isDraw = false;
     }
 
     else
