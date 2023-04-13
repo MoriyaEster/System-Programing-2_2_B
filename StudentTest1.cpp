@@ -35,6 +35,7 @@ TEST_CASE("The card scheme at the end of the game")
     Player p1("Alice");
     Player p2("Bob");
     Game game(p1, p2);
+    game.printPacketOfCards();
     game.playAll();
     int sum = p1.stacksize() + p1.cardesTaken() + p2.stacksize() + p2.cardesTaken();
 

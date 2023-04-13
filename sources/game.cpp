@@ -61,15 +61,17 @@ void ariel::Game::printPacketOfCards()
     std::cout << "player1: " << player1.packetOfCards.size() << endl;
     for (Card c : player1.packetOfCards)
     {
-        std::cout << "Num: " << c.num << "   "
-                  << "Shape: " << c.shape << endl;
+        // std::cout << "Num: " << c.num << "   "
+        //           << "Shape: " << c.shape << endl;
+        c.printCard();
     }
 
     std::cout << "player2: " << player2.packetOfCards.size() << endl;
     for (Card c : player2.packetOfCards)
     {
-        std::cout << "Num: " << c.num << "   "
-                  << "Shape: " << c.shape << endl;
+        // std::cout << "Num: " << c.num << "   "
+        //           << "Shape: " << c.shape << endl;
+        c.printCard();
     }
 }
 
@@ -139,7 +141,7 @@ void ariel::Game::playTurn()
             thisTurnPlayer2.push_back(lastCardOfPlayer2);
         }
 
-        if (lastCardOfPlayer1.num == lastCardOfPlayer2.num)
+        else if (lastCardOfPlayer1.num == lastCardOfPlayer2.num)
         {
             // draw
             isDraw = true;
@@ -166,6 +168,18 @@ void ariel::Game::playTurn()
             }
             else
             {
+                std::cout << "_______________________" << endl;
+                std::cout << "size: " << packetOfDraw.size() << endl;
+                for (Card c : packetOfDraw)
+                {
+                    c.printCard();
+                }
+                std::cout << "_______________________" << endl;
+                if (!packetOfDraw.size())
+                {
+                    player1.packetOfWonsCards.push_back(lastCardOfPlayer1);
+                    player2.packetOfWonsCards.push_back(lastCardOfPlayer2);
+                }
                 while (packetOfDraw.size())
                 {
                     player1.packetOfWonsCards.push_back(packetOfDraw[0]);
@@ -173,22 +187,24 @@ void ariel::Game::playTurn()
                     player2.packetOfWonsCards.push_back(packetOfDraw[0]);
                     packetOfDraw.erase(packetOfDraw.begin());
                 }
+                isDraw = false;
             }
         }
     }
 
-    else if (isDraw)
-    {
-        std::cout << "*** TEST is draw ***" << endl;
-        while (packetOfDraw.size())
-        {
-            player1.packetOfWonsCards.push_back(packetOfDraw[0]);
-            packetOfDraw.erase(packetOfDraw.begin());
-            player2.packetOfWonsCards.push_back(packetOfDraw[0]);
-            packetOfDraw.erase(packetOfDraw.begin());
-        }
-        isDraw = false;
-    }
+    // else if (isDraw)
+    // {
+    //     std::cout << "*** TEST is draw *** packetOfDraw.size " << packetOfDraw.size() << endl;
+
+    //     while (packetOfDraw.size())
+    //     {
+    //         player1.packetOfWonsCards.push_back(packetOfDraw[0]);
+    //         packetOfDraw.erase(packetOfDraw.begin());
+    //         player2.packetOfWonsCards.push_back(packetOfDraw[0]);
+    //         packetOfDraw.erase(packetOfDraw.begin());
+    //     }
+    //     isDraw = false;
+    // }
 
     else
     {
@@ -212,12 +228,10 @@ void ariel::Game::printLastTurn()
     {
         // std::cout << player1.name << " played " << thisTurnPlayer1[0].num << " of " << thisTurnPlayer1[0].shape << endl;
         // std::cout << player2.name << " played " << thisTurnPlayer2[0].num << " of " << thisTurnPlayer2[0].shape << endl;
-        std::cout << player1.name << " played ";
+        std::cout << player1.name << " played with ";
         thisTurnPlayer1[0].printCard();
-        std::cout << endl;
-        std::cout << player2.name << " played ";
+        std::cout << player2.name << " played with ";
         thisTurnPlayer2[0].printCard();
-        std::cout << endl;
 
         if (thisTurnPlayer1[0].num == thisTurnPlayer2[0].num)
         {
@@ -279,8 +293,12 @@ void ariel::Game::printLog()
         Card cardOfPlayer1 = packetOfLog[0];
         Card cardOfPlayer2 = packetOfLog[1];
 
-        std::cout << player1.name << " played with " << cardOfPlayer1.num << ", " << cardOfPlayer1.shape << endl;
-        std::cout << player2.name << " played with " << cardOfPlayer2.num << ", " << cardOfPlayer2.shape << endl;
+        // std::cout << player1.name << " played with " << cardOfPlayer1.num << ", " << cardOfPlayer1.shape << endl;
+        // std::cout << player2.name << " played with " << cardOfPlayer2.num << ", " << cardOfPlayer2.shape << endl;
+        std::cout << player1.name << " played with ";
+        cardOfPlayer1.printCard();
+        std::cout << player2.name << " played with ";
+        cardOfPlayer2.printCard();
         if (cardOfPlayer1.num > cardOfPlayer2.num || (cardOfPlayer1.num == 0 && cardOfPlayer2.num == 13))
         {
             draw = false;
@@ -301,16 +319,24 @@ void ariel::Game::printLog()
             {
                 i++;
                 std::cout << "Turn " << i << ": " << endl;
-                std::cout << player1.name << " played with " << packetOfLog[0].num << ", " << packetOfLog[0].shape << endl;
-                std::cout << player2.name << " played with " << packetOfLog[1].num << ", " << packetOfLog[1].shape << endl;
+                // std::cout << player1.name << " played with " << packetOfLog[0].num << ", " << packetOfLog[0].shape << endl;
+                // std::cout << player2.name << " played with " << packetOfLog[1].num << ", " << packetOfLog[1].shape << endl;
+                std::cout << player1.name << " played with ";
+                packetOfLog[0].printCard();
+                std::cout << player2.name << " played with ";
+                packetOfLog[1].printCard();
             }
             std::cout << "Draw." << endl;
             packetOfLog.erase(packetOfLog.begin());
             packetOfLog.erase(packetOfLog.begin());
             if (draw)
             {
-                std::cout << player1.name << " played with " << packetOfLog[0].num << ", " << packetOfLog[0].shape << endl;
-                std::cout << player2.name << " played with " << packetOfLog[1].num << ", " << packetOfLog[1].shape << endl;
+                // std::cout << player1.name << " played with " << packetOfLog[0].num << ", " << packetOfLog[0].shape << endl;
+                // std::cout << player2.name << " played with " << packetOfLog[1].num << ", " << packetOfLog[1].shape << endl;
+                std::cout << player1.name << " played with ";
+                packetOfLog[0].printCard();
+                std::cout << player2.name << " played with ";
+                packetOfLog[1].printCard();
             }
             draw = true;
             i--;
@@ -325,14 +351,16 @@ void ariel::Game::printStats()
     std::cout << "The cards which " << player1.name << " won: " << endl;
     for (Card c : player1.packetOfWonsCards)
     {
-        std::cout << "Num: " << c.num << " "
-                  << "Shape: " << c.shape << endl;
+        // std::cout << "Num: " << c.num << " "
+        //           << "Shape: " << c.shape << endl;
+        c.printCard();
     }
     std::cout << "The cards which " << player2.name << " won: " << endl;
     for (Card c : player2.packetOfWonsCards)
     {
-        std::cout << "Num: " << c.num << " "
-                  << "Shape: " << c.shape << endl;
+        // std::cout << "Num: " << c.num << " "
+        //           << "Shape: " << c.shape << endl;
+        c.printCard();
     }
     std::cout << "Rate of draw: " << (double)numOfDraw / (double)numOfTurns << endl;
 }
