@@ -210,8 +210,15 @@ void ariel::Game::printLastTurn()
     std::cout << "--------------------------------------------------" << endl;
     while (thisTurnPlayer2.size())
     {
-        std::cout << player1.name << " played " << thisTurnPlayer1[0].num << " of " << thisTurnPlayer1[0].shape << endl;
-        std::cout << player2.name << " played " << thisTurnPlayer2[0].num << " of " << thisTurnPlayer2[0].shape << endl;
+        // std::cout << player1.name << " played " << thisTurnPlayer1[0].num << " of " << thisTurnPlayer1[0].shape << endl;
+        // std::cout << player2.name << " played " << thisTurnPlayer2[0].num << " of " << thisTurnPlayer2[0].shape << endl;
+        std::cout << player1.name << " played ";
+        thisTurnPlayer1[0].printCard();
+        std::cout << endl;
+        std::cout << player2.name << " played ";
+        thisTurnPlayer2[0].printCard();
+        std::cout << endl;
+
         if (thisTurnPlayer1[0].num == thisTurnPlayer2[0].num)
         {
             std::cout << "Draw " << endl;

@@ -13,5 +13,6 @@ public:
 
     Card();
     Card(Num num, Shape shape);
+    void printCard();
 
 };
